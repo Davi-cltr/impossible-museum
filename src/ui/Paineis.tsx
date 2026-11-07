@@ -186,9 +186,11 @@ function Arquivo() {
 
 // ——— a Planta
 
+const quebra = (texto: string, largura: number) => texto.length * 1.05 >= largura && texto.includes(' ')
+
 /** nome da sala em uma ou duas linhas, conforme a largura */
 function Quebra({ texto, largura, x }: { texto: string; largura: number; x: number }) {
-  if (texto.length * 1.05 < largura || !texto.includes(' ')) return <>{texto}</>
+  if (!quebra(texto, largura)) return <>{texto}</>
   const palavras = texto.split(' ')
   let melhor = 1
   let dif = Infinity
@@ -213,6 +215,19 @@ function Quebra({ texto, largura, x }: { texto: string; largura: number; x: numb
 }
 
 const CAIXA = { x0: -47, z0: -46, x1: 37, z1: 36 }
+
+/** onde cada obra está na planta (junto da parede, longe dos nomes das salas) */
+const POS_OBRA: Record<string, [number, number]> = {
+  '001': [-33.2, 0],
+  '002': [32.3, -21],
+  '003': [32.3, 0],
+  '004': [-2.6, -28.8],
+  '005': [24, -32.3],
+  '006': [-27.2, -6.6],
+  '007': [22, 7.3],
+  '008': [-27, -30.5],
+  '014': [9.5, -40],
+}
 
 function Planta() {
   const { t, l } = useLang()
@@ -336,7 +351,7 @@ function Planta() {
                 {g && (
                   <g className="p-rotulo">
                     {g.numero && !eh014 && e.id !== 'escada' && (
-                      <text x={(r.x0 + r.x1) / 2} y={(r.z0 + r.z1) / 2 - 1.6} className="p-num" textAnchor="middle">
+                      <text x={(r.x0 + r.x1) / 2} y={(r.z0 + r.z1) / 2 - (vis && quebra(l(g.nome), r.x1 - r.x0) ? 3.0 : 1.6)} className="p-num" textAnchor="middle">
                         {g.numero}
                       </text>
                     )}
@@ -367,9 +382,6 @@ function Planta() {
           <g className={`p-sala ${visitou('sala004') ? 'visitada' : 'nao'}`}>
             <rect x={SALA004.x0} y={SALA004.z0} width={SALA004.x1 - SALA004.x0} height={SALA004.z1 - SALA004.z0} className="p-fundo p-interna" />
             <rect x={SALA004.x0} y={SALA004.z0} width={SALA004.x1 - SALA004.x0} height={SALA004.z1 - SALA004.z0} className="p-contorno p-fina" />
-            <text x={(SALA004.x0 + SALA004.x1) / 2} y={(SALA004.z0 + SALA004.z1) / 2 + 0.6} className="p-sub p-rotulo" textAnchor="middle">
-              004
-            </text>
           </g>
           {/* degraus na torre da escada */}
           <g className="p-degraus">
@@ -387,14 +399,16 @@ function Planta() {
             </text>
           </g>
           {/* obras observadas */}
-          {PONTOS.filter((p) => p.obra && m.obras.includes(p.obra)).map((p) => (
-            <g key={p.id} className="p-obra" transform={`translate(${p.pos[0]} ${p.pos[1]})`}>
-              <circle r={0.7} />
-              <text y={-1.2} textAnchor="middle">
-                {p.obra}
-              </text>
-            </g>
-          ))}
+          {Object.entries(POS_OBRA)
+            .filter(([id]) => m.obras.includes(id) && (id !== '014' || s014))
+            .map(([id, [x, z]]) => (
+              <g key={id} className="p-obra" transform={`translate(${x} ${z})`}>
+                <circle r={0.7} />
+                <text y={-1.2} textAnchor="middle">
+                  {id}
+                </text>
+              </g>
+            ))}
           {/* norte e escala */}
           <g className="p-norte" transform={`translate(${CAIXA.x1 - 5} ${CAIXA.z0 + 6})`}>
             <path d="M0 -3 L1.4 2 L0 1 L-1.4 2 Z" />

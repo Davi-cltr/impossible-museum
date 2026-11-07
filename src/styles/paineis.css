@@ -1119,8 +1119,14 @@ text.p-rotulo {
     gap: 8px 18px;
     font-size: 12px;
   }
+  .planta {
+    grid-template-rows: auto auto;
+    align-content: start;
+  }
   .planta-desenho {
     padding: 14px 8px 40px;
+    min-height: auto;
+    align-items: flex-start;
   }
   .planta-desenho svg {
     max-height: none;
