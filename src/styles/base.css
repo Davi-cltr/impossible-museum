@@ -1,0 +1,253 @@
+/* The Impossible Museum — base: tokens, tipografia, palco, cursor */
+
+:root {
+  --tinta: #121211;
+  --tinta-2: #1b1a18;
+  --tinta-3: #2a2825;
+  --papel: #f1eee7;
+  --papel-2: #e6e2d8;
+  --papel-3: #d8d3c7;
+  --pedra: #8d887e;
+  --pedra-2: #6b675f;
+  --linha: rgba(241, 238, 231, 0.18);
+  --linha-forte: rgba(241, 238, 231, 0.42);
+  --linha-escura: rgba(18, 18, 17, 0.14);
+  --acento: #b8432f;
+  --acento-claro: #d0654f;
+
+  --serif: 'Instrument Serif', 'Times New Roman', serif;
+  --sans: 'Geist Variable', 'Helvetica Neue', Arial, sans-serif;
+  --mono: 'Geist Mono Variable', ui-monospace, 'SFMono-Regular', monospace;
+
+  --sai: cubic-bezier(0.16, 1, 0.3, 1);
+  --entra-sai: cubic-bezier(0.65, 0, 0.35, 1);
+  --margem: clamp(18px, 3.2vw, 44px);
+  --topo: max(env(safe-area-inset-top), 0px);
+  --base: max(env(safe-area-inset-bottom), 0px);
+
+  color-scheme: dark;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  margin: 0;
+  height: 100%;
+  overflow: hidden;
+  background: var(--tinta);
+}
+
+body {
+  color: var(--papel);
+  font-family: var(--sans);
+  font-size: 15px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  font-feature-settings: 'ss01', 'cv11';
+  overscroll-behavior: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+button:focus-visible,
+a:focus-visible,
+[tabindex]:focus-visible {
+  outline: 1px solid var(--acento-claro);
+  outline-offset: 4px;
+}
+
+.visualmente-oculto {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* o palco 3D */
+.hospede {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+}
+
+.palco {
+  position: absolute;
+  inset: 0;
+  width: 100% !important;
+  height: 100% !important;
+  display: block;
+  touch-action: none;
+  outline: none;
+  opacity: 0;
+  transition: opacity 1.6s var(--sai);
+}
+
+.pronto .palco {
+  opacity: 1;
+}
+
+@media (pointer: fine) {
+  .museu-ativo .palco {
+    cursor: none;
+  }
+  .museu-ativo .palco.arrastando {
+    cursor: none;
+  }
+}
+
+/* grão de filme por cima de tudo (bem leve; o 3D tem o seu próprio grão) */
+.grao {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.5  0 0 0 0 0.5  0 0 0 0 0.5  0 0 0 1 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  mix-blend-mode: overlay;
+  animation: grao 0.9s steps(4) infinite;
+}
+
+@keyframes grao {
+  0% { background-position: 0 0; }
+  25% { background-position: -37px 21px; }
+  50% { background-position: 18px -44px; }
+  75% { background-position: -9px 33px; }
+}
+
+/* cursor próprio */
+.cursor {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 70;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.4s var(--sai);
+}
+
+.cursor.visivel {
+  opacity: 1;
+}
+
+.cursor-anel {
+  position: absolute;
+  left: -9px;
+  top: -9px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  box-shadow: 0 0 0 0.5px rgba(0, 0, 0, 0.25), inset 0 0 0 0.5px rgba(0, 0, 0, 0.2);
+  transition:
+    width 0.45s var(--sai),
+    height 0.45s var(--sai),
+    left 0.45s var(--sai),
+    top 0.45s var(--sai),
+    border-color 0.3s,
+    background-color 0.3s;
+}
+
+.cursor-ponto {
+  position: absolute;
+  left: -1.5px;
+  top: -1.5px;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: #fff;
+}
+
+.cursor[data-tipo='obra'] .cursor-anel,
+.cursor[data-tipo='documento'] .cursor-anel,
+.cursor[data-tipo='objeto'] .cursor-anel,
+.cursor[data-tipo='porta'] .cursor-anel {
+  width: 46px;
+  height: 46px;
+  left: -23px;
+  top: -23px;
+  border-color: rgba(255, 255, 255, 0.95);
+}
+
+.cursor[data-tipo='trancada'] .cursor-anel {
+  width: 40px;
+  height: 40px;
+  left: -20px;
+  top: -20px;
+  border-color: var(--acento-claro);
+}
+
+.cursor[data-tipo='andar'] .cursor-anel {
+  width: 10px;
+  height: 10px;
+  left: -5px;
+  top: -5px;
+}
+
+.cursor.arrastando .cursor-anel {
+  width: 30px;
+  height: 30px;
+  left: -15px;
+  top: -15px;
+  border-style: dashed;
+}
+
+.cursor-rotulo {
+  position: absolute;
+  left: 30px;
+  top: -8px;
+  white-space: nowrap;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #fff;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.55);
+  opacity: 0;
+  transform: translateX(-6px);
+  transition:
+    opacity 0.3s var(--sai),
+    transform 0.45s var(--sai);
+}
+
+.cursor-rotulo.visivel {
+  opacity: 1;
+  transform: none;
+}
+
+.cursor[data-tipo='andar'] .cursor-rotulo {
+  left: 14px;
+  opacity: 0.55;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .grao {
+    animation: none;
+  }
+}
+
+.reduzido *,
+.reduzido *::before,
+.reduzido *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+}

@@ -1,0 +1,108 @@
+// Textos da interface, em inglês e português.
+import type { L, Lang } from './acervo'
+import { memoria, useMuseu } from '../core/estado'
+
+const t = (en: string, pt: string): L => ({ en, pt })
+
+export const TEXTOS = {
+  nome: t('The Impossible Museum', 'The Impossible Museum'),
+  lema: t('An archive of things that should not exist.', 'Um arquivo de coisas que não deveriam existir.'),
+  entrar: t('Enter', 'Entrar'),
+  carregando: t('Preparing the galleries', 'Preparando as galerias'),
+  comSom: t('Best experienced with sound', 'Melhor com som'),
+  horario: t('Open daily · 10:00 — 18:00 · Admission free', 'Aberto todos os dias · 10:00 — 18:00 · Entrada gratuita'),
+  voltaDe: t('Welcome back. Your last visit was on', 'Bem-vindo de volta. Sua última visita foi em'),
+  pular: t('Skip', 'Pular'),
+  dicaDesk: t('Drag to look · Click the floor to walk · W A S D to move', 'Arraste para olhar · Clique no chão para andar · W A S D para mover'),
+  dicaDesk2: t('Click a work to approach it · M plan · I archive', 'Clique numa obra para se aproximar · M planta · I arquivo'),
+  dicaToque: t('Drag to look around · Use the arrows to move between stops', 'Arraste para olhar em volta · Use as setas para ir de um ponto a outro'),
+  arquivo: t('The Archive', 'O Arquivo'),
+  mapa: t('Plan', 'Planta'),
+  ajustes: t('Settings', 'Ajustes'),
+  fechar: t('Close', 'Fechar'),
+  som: t('Sound', 'Som'),
+  ligado: t('On', 'Ligado'),
+  desligado: t('Off', 'Desligado'),
+  idioma: t('Language', 'Idioma'),
+  qualidade: t('Image quality', 'Qualidade da imagem'),
+  alta: t('High', 'Alta'),
+  media: t('Medium', 'Média'),
+  baixa: t('Low', 'Baixa'),
+  movimento: t('Reduce motion', 'Reduzir movimento'),
+  esquecer: t('Forget my visits', 'Esquecer minhas visitas'),
+  esquecerConfirma: t('The museum will forget everything you found. Continue?', 'O museu vai esquecer tudo o que você encontrou. Continuar?'),
+  sim: t('Yes, forget', 'Sim, esquecer'),
+  nao: t('Cancel', 'Cancelar'),
+  exposicao: t('Exhibition', 'Exposição'),
+  obra: t('Exhibit', 'Obra'),
+  classificacao: t('Classification', 'Classificação'),
+  status: t('Status', 'Situação'),
+  descoberta: t('Provenance', 'Procedência'),
+  observado: t('Observed', 'Observado'),
+  naoObservado: t('Not yet observed', 'Ainda não observado'),
+  notaCurador: t('Curator’s note', 'Nota do Curador'),
+  desconhecida: t('Unknown', 'Desconhecida'),
+  bloqueada: t('This entry is closed until the work is found in the museum.', 'Esta ficha está fechada até a obra ser encontrada no museu.'),
+  removida: t('Removed from public view.', 'Retirada da exposição.'),
+  lerMais: t('Archive entry', 'Ficha no arquivo'),
+  verNoMapa: t('Show on plan', 'Ver na planta'),
+  documentos: t('Documents', 'Documentos'),
+  nenhumDoc: t('No documents found yet.', 'Nenhum documento encontrado ainda.'),
+  obras: t('Works', 'Obras'),
+  catalogadas: t('catalogued', 'catalogadas'),
+  observadas: t('observed', 'observadas'),
+  vocêEstaAqui: t('You are here', 'Você está aqui'),
+  naoVisitada: t('Not yet visited', 'Ainda não visitada'),
+  irPara: t('Go here', 'Ir para cá'),
+  planta: t('Ground floor', 'Pavimento térreo'),
+  nivel: t('Level', 'Nível'),
+  subsolo: t('Basement', 'Subsolo'),
+  trancada: t('Locked', 'Trancada'),
+  abrir: t('Open', 'Abrir'),
+  fecharPorta: t('Close', 'Fechar'),
+  observar: t('Observe', 'Observar'),
+  ler: t('Read', 'Ler'),
+  andar: t('Walk', 'Andar'),
+  tocar: t('Touch', 'Tocar'),
+  puxar: t('Pull', 'Puxar'),
+  subir: t('Climb a floor', 'Subir um andar'),
+  descer: t('Go down a floor', 'Descer um andar'),
+  anterior: t('Previous', 'Anterior'),
+  proxima: t('Next', 'Próxima'),
+  novaObra: t('Added to the archive', 'Acrescentada ao arquivo'),
+  anomaliaVista: t('Observation recorded', 'Observação registrada'),
+  documentoAchado: t('Document added to the archive', 'Documento acrescentado ao arquivo'),
+  livroPuxado: t('Somewhere in the museum, a latch opens.', 'Em algum lugar do museu, uma tranca se abre.'),
+  portaApareceu: t('Something on the plan has changed.', 'Algo mudou na planta.'),
+  semGL: t(
+    'This visit needs WebGL, which your browser could not start. The archive is still open below.',
+    'Esta visita precisa de WebGL, que o seu navegador não conseguiu iniciar. O arquivo continua aberto abaixo.',
+  ),
+  voltar: t('Back to the entrance', 'Voltar à entrada'),
+  restrito: t('Exhibit 014 — Access restricted', 'Obra 014 — Acesso restrito'),
+  espelhoTitulo: t('The Visitor', 'O Visitante'),
+  espelhoL1: t('On view in Gallery 04 until further notice.', 'Em exposição na Galeria 04 até segunda ordem.'),
+  espelhoL2: t('Please do not leave.', 'Por favor, não vá embora.'),
+  notaEncontrada: t('Curator’s note found', 'Nota do Curador encontrada'),
+  segundaDescricao: t('A second label has been recorded', 'Uma segunda placa foi registrada'),
+  rotuloEspelho: t('Label, as seen in the mirror', 'Placa, vista no espelho'),
+  somenteFuncionarios: t('Staff only', 'Somente funcionários'),
+  acessoRestrito: t('Access restricted', 'Acesso restrito'),
+  ouvir: t('Listen', 'Ouvir'),
+  sala014Aviso: t('Room 014 — Not on the plan', 'Sala 014 — Fora da planta'),
+  removido: t('Exhibit 014 — Removed', 'Obra 014 — Retirada'),
+}
+
+export type ChaveTexto = keyof typeof TEXTOS
+
+export const tr = (k: ChaveTexto, lang: Lang = memoria.lang) => TEXTOS[k][lang]
+export const lt = (l: L, lang: Lang = memoria.lang) => l[lang]
+
+export function useLang() {
+  const lang = useMuseu((_, m) => m.lang)
+  return {
+    lang,
+    t: (k: ChaveTexto) => TEXTOS[k][lang],
+    l: (x: L) => x[lang],
+  }
+}

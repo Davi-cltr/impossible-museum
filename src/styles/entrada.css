@@ -1,0 +1,366 @@
+/* A entrada */
+
+.entrada {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  padding: calc(var(--topo) + var(--margem)) var(--margem) calc(var(--base) + var(--margem));
+  color: var(--papel);
+  pointer-events: auto;
+}
+
+.entrada.saindo {
+  pointer-events: none;
+}
+
+.entrada.saindo .entrada-pular {
+  pointer-events: auto;
+}
+
+.entrada.some {
+  opacity: 0;
+  transition: opacity 0.9s var(--sai);
+}
+
+/* véu: primeiro é tinta pura; quando o museu fica pronto, abre e deixa ver a praça */
+.entrada-veu {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--tinta);
+  transition: background 2.4s var(--sai);
+}
+
+.entrada.pronta .entrada-veu {
+  background:
+    linear-gradient(90deg, rgba(14, 14, 13, 0.82) 0%, rgba(14, 14, 13, 0.55) 34%, rgba(14, 14, 13, 0.08) 68%, rgba(14, 14, 13, 0.16) 100%),
+    linear-gradient(0deg, rgba(14, 14, 13, 0.6) 0%, rgba(14, 14, 13, 0) 26%);
+}
+
+.entrada-topo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(241, 238, 231, 0.72);
+}
+
+.entrada-opcoes {
+  display: flex;
+  align-items: center;
+  gap: 26px;
+}
+
+.entrada-opcao {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  color: inherit;
+  transition: color 0.3s;
+}
+
+.entrada-opcao:hover {
+  color: var(--papel);
+}
+
+.onda {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  height: 12px;
+}
+
+.onda i {
+  display: block;
+  width: 2px;
+  height: 3px;
+  background: currentColor;
+  transition: height 0.4s var(--sai);
+}
+
+.onda.ligada i {
+  animation: onda 1.2s ease-in-out infinite;
+}
+
+.onda.ligada i:nth-child(2) {
+  animation-delay: -0.3s;
+}
+.onda.ligada i:nth-child(3) {
+  animation-delay: -0.6s;
+}
+.onda.ligada i:nth-child(4) {
+  animation-delay: -0.9s;
+}
+
+@keyframes onda {
+  0%,
+  100% {
+    height: 3px;
+  }
+  50% {
+    height: 11px;
+  }
+}
+
+.entrada-idiomas {
+  display: inline-flex;
+  gap: 2px;
+}
+
+.entrada-idiomas button {
+  padding: 4px 6px;
+  color: rgba(241, 238, 231, 0.42);
+  font: inherit;
+  letter-spacing: inherit;
+  position: relative;
+  transition: color 0.3s;
+}
+
+.entrada-idiomas button::after {
+  content: '';
+  position: absolute;
+  left: 6px;
+  right: 6px;
+  bottom: 0;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transition: transform 0.5s var(--sai);
+}
+
+.entrada-idiomas button.ativo {
+  color: var(--papel);
+}
+
+.entrada-idiomas button.ativo::after {
+  transform: scaleX(1);
+}
+
+.entrada-centro {
+  align-self: center;
+  max-width: min(980px, 92vw);
+}
+
+.entrada-titulo {
+  margin: 0;
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: clamp(64px, 11.6vw, 196px);
+  line-height: 0.84;
+  letter-spacing: -0.028em;
+  display: flex;
+  flex-direction: column;
+}
+
+.entrada-linha {
+  display: block;
+  overflow: hidden;
+  padding: 0.04em 0 0.08em;
+  margin-bottom: -0.08em;
+}
+
+.entrada-linha:nth-child(3) {
+  padding-left: 0.62em;
+}
+
+.entrada-linha:nth-child(4) {
+  font-style: italic;
+  padding-left: 0.06em;
+}
+
+.entrada-letra {
+  display: inline-block;
+  will-change: transform, opacity;
+}
+
+.entrada-regua {
+  width: min(520px, 70vw);
+  height: 1px;
+  margin: clamp(22px, 3.4vh, 38px) 0 18px;
+  background: linear-gradient(90deg, rgba(241, 238, 231, 0.6), rgba(241, 238, 231, 0));
+}
+
+.entrada-lema {
+  margin: 0;
+  font-size: clamp(16px, 1.45vw, 21px);
+  letter-spacing: 0.005em;
+  color: rgba(241, 238, 231, 0.86);
+  max-width: 34ch;
+}
+
+.entrada-acao {
+  margin-top: clamp(30px, 6vh, 64px);
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  flex-wrap: wrap;
+}
+
+.entrar {
+  display: inline-flex;
+  align-items: center;
+  gap: 18px;
+  padding: 14px 0;
+  font-family: var(--mono);
+  font-size: 12.5px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--papel);
+}
+
+.entrar:disabled {
+  cursor: progress;
+  color: rgba(241, 238, 231, 0.6);
+}
+
+.entrar-linha {
+  position: relative;
+  display: block;
+  width: 120px;
+  height: 1px;
+  background: rgba(241, 238, 231, 0.22);
+  overflow: hidden;
+  transition: width 0.9s var(--sai);
+}
+
+.entrar-progresso {
+  position: absolute;
+  inset: 0;
+  background: var(--papel);
+  transform-origin: left center;
+  transition: transform 0.5s var(--sai);
+}
+
+.entrar:not(:disabled):hover .entrar-linha {
+  width: 180px;
+}
+
+.entrar-seta {
+  display: inline-block;
+  min-width: 3.5ch;
+  transition: transform 0.6s var(--sai);
+}
+
+.entrar:not(:disabled):hover .entrar-seta {
+  transform: translateX(8px);
+}
+
+.entrada.pronta .entrar-rotulo {
+  animation: respira 3.6s ease-in-out infinite;
+}
+
+@keyframes respira {
+  50% {
+    opacity: 0.62;
+  }
+}
+
+.entrada-catalogo {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.18em;
+  color: rgba(241, 238, 231, 0.42);
+  font-variant-numeric: tabular-nums;
+}
+
+.entrada-rodape {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+  font-size: 12px;
+  letter-spacing: 0.02em;
+  color: rgba(241, 238, 231, 0.6);
+}
+
+.entrada-chegada {
+  position: absolute;
+  left: 50%;
+  bottom: calc(var(--base) + clamp(34px, 9vh, 90px));
+  transform: translateX(-50%);
+  display: flex;
+  gap: 22px;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.82);
+  text-shadow: 0 1px 14px rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+.entrada-chegada span + span::before {
+  content: '·';
+  margin-right: 22px;
+  opacity: 0.6;
+}
+
+.entrada-pular {
+  position: absolute;
+  right: var(--margem);
+  bottom: calc(var(--base) + var(--margem));
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.8);
+  padding: 10px 0;
+  animation: aparece 1s 1.4s var(--sai) both;
+}
+
+.entrada-pular:hover {
+  color: #fff;
+}
+
+@keyframes aparece {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+
+@media (max-width: 720px) {
+  .entrada-topo {
+    font-size: 10px;
+  }
+  .entrada-opcoes {
+    gap: 14px;
+  }
+  .entrada-marca {
+    display: none;
+  }
+  .entrada-linha:nth-child(3) {
+    padding-left: 0.3em;
+  }
+  .entrada.pronta .entrada-veu {
+    background:
+      linear-gradient(0deg, rgba(14, 14, 13, 0.86) 0%, rgba(14, 14, 13, 0.4) 46%, rgba(14, 14, 13, 0.2) 100%);
+  }
+  .entrada-centro {
+    align-self: end;
+    margin-bottom: 4vh;
+  }
+  .entrada-rodape {
+    flex-direction: column;
+    gap: 4px;
+    font-size: 11px;
+  }
+  .entrada-chegada {
+    flex-direction: column;
+    gap: 4px;
+    align-items: center;
+  }
+  .entrada-chegada span + span::before {
+    display: none;
+  }
+}
