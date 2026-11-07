@@ -803,10 +803,11 @@ export class Museu {
   private quadro(dt: number, agora: number, desenhar = true) {
     const j = this.jogador
     if (sessao.fase === 'entrada') {
-      // a câmera respira devagar diante da fachada
+      // a câmera respira devagar diante da fachada; só se afasta para a direita,
+      // assim o letreiro da fachada nunca passa por trás do título
       this.drift += dt
       const r = sessao.reduzido ? 0 : 1
-      j.alvoYaw = YAW_ENTRADA + Math.sin(this.drift * 0.11) * 0.05 * r
+      j.alvoYaw = YAW_ENTRADA + (1 - Math.cos(this.drift * 0.11)) * 0.025 * r
       j.alvoPitch = 0.1 + Math.sin(this.drift * 0.15) * 0.018 * r
     }
     j.atualizar(dt, this.mundo.blocos, this.camera)

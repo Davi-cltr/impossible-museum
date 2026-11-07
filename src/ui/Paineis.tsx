@@ -24,9 +24,12 @@ function BotaoFechar({ escuro = false }: { escuro?: boolean }) {
 function useAbertura(ref: RefObject<HTMLElement | null>, chave: unknown = 0) {
   useLayoutEffect(() => {
     if (!ref.current) return
-    const ctx = gsap.context(() => {
-      gsap.fromTo('.anima', { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 1, ease: 'expo.out', stagger: 0.035, delay: 0.15 })
-      gsap.fromTo('.regua', { scaleX: 0 }, { scaleX: 1, duration: 1.3, ease: 'expo.inOut', transformOrigin: 'left center', stagger: 0.05, delay: 0.1 })
+    const ctx = gsap.context((self) => {
+      // só anima o que existe neste painel (a planta não tem régua)
+      const linhas = self.selector?.('.anima') ?? []
+      const reguas = self.selector?.('.regua') ?? []
+      if (linhas.length) gsap.fromTo(linhas, { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 1, ease: 'expo.out', stagger: 0.035, delay: 0.15 })
+      if (reguas.length) gsap.fromTo(reguas, { scaleX: 0 }, { scaleX: 1, duration: 1.3, ease: 'expo.inOut', transformOrigin: 'left center', stagger: 0.05, delay: 0.1 })
     }, ref)
     return () => ctx.revert()
   }, [ref, chave])
