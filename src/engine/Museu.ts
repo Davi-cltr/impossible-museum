@@ -29,7 +29,7 @@ import type { Contexto, Interativo, Peca } from './pecas/comum'
 type Sala = GaleriaId | 'fora'
 
 /** na entrada, a câmera fica à esquerda do eixo e olha para a porta: o título ocupa a esquerda da tela */
-const YAW_ENTRADA = -0.2
+const YAW_ENTRADA = -0.07
 
 /** para onde se olha diante de cada obra */
 const FOCOS: Record<string, THREE.Vector3> = {
